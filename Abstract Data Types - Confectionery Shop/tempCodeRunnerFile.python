@@ -1,0 +1,35 @@
+import graphviz
+
+# Create a new directed graph for the NFA
+nfa_workout = graphviz.Digraph(format='png')
+
+# Define the states including new states
+states_workout = ['Plan Workout', 'Alone', 'With Friends', 'Exercise', 'Break', 'Cooldown', 'Random Activity', 'Rest/Relax']
+for state in states_workout:
+    if state == 'Cooldown':
+        nfa_workout.node(state, state, shape='doublecircle')  # Mark Cooldown as the end state
+    else:
+        nfa_workout.node(state, state, shape='circle')  # Regular states
+
+# Define transitions
+transitions_workout = [
+    ('Plan Workout', 'Alone', 'A'),  # Plan to Alone
+    ('Plan Workout', 'With Friends', 'W'),  # Plan to With Friends
+    ('Alone', 'Exercise', 'E'),  # Alone to Exercise
+    ('With Friends', 'Exercise', 'E'),  # With Friends to Exercise
+    ('Exercise', 'Break', 'B'),  # Exercise to Break
+    ('Exercise', 'Cooldown', 'C'),  # Exercise to Cooldown
+    ('Break', 'Exercise', 'E'),  # Break to Exercise
+    ('Break', 'Cooldown', 'C'),  # Break to Cooldown
+    # Nondeterministic new states
+    ('Break', 'Random Activity', 'ε'),  # Break to Random Activity (Nondeterministic)
+    ('Random Activity', 'Rest/Relax', 'ε'),  # Random Activity to Rest/Relax
+    ('Rest/Relax', 'Cooldown', 'C')  # Rest/Relax to Cooldown
+]
+
+# Add the transitions to the graph
+for src, dst, label in transitions_workout:
+    nfa_workout.edge(src, dst, label)
+
+# Render the NFA graph
+nfa_workout.render('nfa_workout_with_nondeterminism')

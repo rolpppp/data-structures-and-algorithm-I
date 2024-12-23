@@ -1,0 +1,6 @@
+The Fisher-Yates shuffle algorithm assumes that a given function rand() 
+that generates a random number in O(1) time. 
+This starts from the last element and swap it with a randomly selected element from the whole array (including the last).
+It will iterate from n-1 till the process hit the first element. Overall, this algorithm runs in O(n).
+
+source: GeeksforGeeks.org
